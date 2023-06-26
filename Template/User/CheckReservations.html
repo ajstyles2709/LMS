@@ -1,0 +1,181 @@
+<!--    Modification Log
+    created on 24/08
+    24/07 shown the reserved book/cd to user from ReserveBook/reserveCD dB.
+    25/07 applied bootstrap.
+    26/07 worked on Front End given release button in the table and redirect to form.
+    28/07 all fields are changed to readonly.
+    12/08 worked on scrollable table and split the table acoording to past due and present/future due
+    17/08 worked on front end changes... in navbar
+-->
+
+
+<!DOCTYPE html>
+{% load static %}
+{% load crispy_forms_tags %}
+<html>
+    <head>
+    <style>
+    .success{
+        color:green;
+    }
+* {
+  box-sizing: border-box;
+}
+
+.row {
+  margin-left:-5px;
+  margin-right:-5px;
+}
+  
+.column {
+  float: left;
+  width: 50%;
+  padding: 5px;
+}
+
+/* Clearfix (clear floats) */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+th, td {
+  text-align: left;
+  padding: 16px;
+}
+
+</style>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>MyProfile</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'Css/bootstrap.min.css' %}">
+    </head>
+    <body> 
+    <header>
+    <!--Navbar-->
+    <nav class="navbar navbar-light bg-light sticky-top justify-content-between">
+        <a class="navbar-brand"><h4 class="white-text font-weight-bold wow fadeInLeft">Library Management System</h4></a>
+        <div class="d-flex align-items-center">
+            {% if user.is_authenticated %}
+            <h6 class="white-text font-weight-bold wow fadeInLeft">Welcome {{user.username}}</h6>
+            {% endif %}
+            <a class="nav-link text-dark" href="{% url 'userIndex' %}"><h6 class="white-text font-weight-bold wow fadeInLeft">Home</h6></a>
+            <a class="nav-link text-dark" href="{% url 'updateUser' %}"><h6 class="white-text font-weight-bold wow fadeInLeft">UpdateProfile</h6></a>
+            <a class="nav-link text-dark" href="{% url 'changePassword' %}"><h6 class="white-text font-weight-bold wow fadeInLeft">ChangePassword</h6></a>
+            <a class="btn btn-outline-danger my-2 my-sm-0" href="{% url 'userLogout' %}"><h6 class="white-text font-weight-bold wow fadeInLeft">Logout</h6></a>
+        </div>
+    </nav>
+<!-- Admin Index -->
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-8">
+            <center><h2 class="mt-2 white-text font-weight-bold wow fadeInLeft">Reserved BOOKs and CDs</h2></center>
+            <hr class="mt-0 mb-4">
+            {% if messages %}
+                {% for msg in messages %}
+                <p class="mt-2 white-text font-weight-bold wow fadeInLeft"><span class={{msg.tags}}>{{msg}}</span></p>
+                <hr class="mt-0 mb-4">
+                {% endfor %}   
+                {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+        <div class="column">
+        {% if expitem %}
+            <table  class="table table-hover">
+                <tr>
+                    <th>Item Name</th>
+                    <th>Category</th>
+                    <th>DateOfIssue</th>
+                    <th>DateOfReturn</th>
+                    <th>Return</th>
+                </tr>
+                {% for item in expitem %}
+                <tr class="text-danger">
+                    <td>{{item.ItemId}}</td>
+                    <th>{{item.Category}}</th>
+                    <td>{{item.DateOfIssue}}</td>
+                    <td>{{item.DateOfReturn}}</td>
+                    <td><a href="{% url 'releaseItem' item.Id %}" class="btn btn-primary"><h6 class="white-text font-weight-bold wow fadeInLeft">Return</h6></a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+        <center><h3>No past due items..</h3></center>
+        {% endif %}
+        </div>
+        <div class="column">
+        {% if curritem %}
+            <table class="table table-hover">
+                <tr>
+                    <th>Item Name</th>
+                    <th>Category</th>
+                    <th>DateOfIssue</th>
+                    <th>DateOfReturn</th>
+                    <th>Return</th>
+                </tr>
+                {% for item in curritem %}
+                <tr>
+                    <td>{{item.ItemId}}</td>
+                    <th>{{item.Category}}</th>
+                    <td>{{item.DateOfIssue}}</td>
+                    <td>{{item.DateOfReturn}}</td>
+                    <td><a href="{% url 'releaseItem' item.Id %}" class="btn btn-primary"><h6 class="white-text font-weight-bold wow fadeInLeft">Return</h6></a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+        <center><h3>No current Due..</h3></center>
+        {% endif %}
+        </div>
+    </div>
+
+    
+    <script src="" async defer></script>
+    </body>
+</html>
+
+<!--
+
+    <div class="row">
+        <div class="col-lg">
+            {% if item %} 
+            <table class="table table-hover table-bordered">
+                <tr>
+                    <th>ItemName</th>
+                    <th>Copies</th>
+                    <th>Category</th>
+                    <th>DateOfIssue</th>
+                    <th>DateOfReturn</th>
+                    <th>Return</th>
+                </tr>
+                <tbody>
+                    {% for i in item %}
+                    <tr>
+                        <td>{{i.ItemId}}</td>
+                        <td>{{i.Copies}}</td>
+                        <th>{{i.Category}}</th>
+                        <td>{{i.DateOfIssue}}</td>
+                        <td>{{i.DateOfReturn}}</td>
+                        <td><a href="{% url 'releaseItem' i.Id %}" class="btn btn-primary"><h6 class="white-text font-weight-bold wow fadeInLeft">Return</h6></a></td>
+                    </tr>
+                    {% endfor %}
+            {% else %}
+                <h2>You don't have any reserved item.. </h2>
+                </tbody>
+             </table>
+            {% endif %}
+        </div>    
+    </header>
+-->

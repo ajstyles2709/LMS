@@ -1,0 +1,168 @@
+<!--    Modification Log
+    created on 23/07
+    created links for reserve/release Book/CD, ChangePassword, update profile
+    24/07 created logout option, MyProfile, 
+    30/07 used messages for user understanging. Modified the reserve/release to table button.
+    31/07 Worked on Front end.
+    12/08 worked on scrollable table and split the table acoording to category
+    17/08 worked on front end changes... in navbar
+-->
+
+
+<!DOCTYPE html>
+{% load static %}
+{% load crispy_forms_tags %}
+<html>
+    <head>
+    <style>
+    .my-custom-scrollbar {
+position: relative;
+height: 500px;
+overflow: auto;
+}
+.table-wrapper-scroll-y {
+display: block;
+}
+    .success{
+        color:green;
+    }
+    .info{
+        color:blue;
+    }
+    .warning{
+        color:red;
+    }
+    
+    * {
+  box-sizing: border-box;
+}
+
+.row {
+  margin-left:-5px;
+  margin-right:-5px;
+}
+  
+.column {
+  float: left;
+  width: 50%;
+  padding: 5px;
+}
+
+/* Clearfix (clear floats) */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+th, td {
+  text-align: left;
+  padding: 16px;
+}
+
+</style>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>AdminHome</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'Css/bootstrap.min.css' %}">
+    </head>
+    <body> 
+    <header>
+    <!--Navbar-->
+    <nav class="navbar navbar-light bg-light sticky-top justify-content-between">
+        <a class="navbar-brand"><h4 class="white-text font-weight-bold wow fadeInLeft">Library Management System</h4></a>
+        <div class="d-flex align-items-center">
+            {% if user.is_authenticated %}
+            <h6 class="white-text font-weight-bold wow fadeInLeft">Welcome {{user.username}} </h6>
+            {% endif %}
+            <a class="nav-link text-dark" href="{% url 'userIndex' %}"><h6 class="white-text font-weight-bold wow fadeInLeft">Home</h6></a>
+            <a class="nav-link text-dark" href="{% url 'updateUser' %}"><h6 class="white-text font-weight-bold wow fadeInLeft">UpdateProfile</h6></a>
+            <a class="nav-link text-dark" href="{% url 'changePassword' %}"><h6 class="white-text font-weight-bold wow fadeInLeft">ChangePassword</h6></a>
+            <a class="nav-link text-dark" href="{% url 'checkRes' %}"><h6 class="white-text font-weight-bold wow fadeInLeft">CheckReservations</h6></a>
+            <a class="btn btn-outline-danger my-2 my-sm-0" href="{% url 'userLogout' %}"><h6 class="white-text font-weight-bold wow fadeInLeft">Logout</h6></a>
+        </div>
+    </nav>
+<!-- Admin Index -->
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-8">
+            {% if messages %}
+                {% for msg in messages %}
+                <p class="mt-2 white-text font-weight-bold wow fadeInLeft"><span class={{msg.tags}}>{{msg}}</span></p>
+                <hr class="mt-0 mb-4">
+                {% endfor %}   
+                {% endif %}
+        </div>
+      </div>
+    </div>
+<div>
+    <div class="row">
+        <div class="column">
+        {% if Bookitem %}
+            <table class="table table-hover table-wrapper-scroll-y my-custom-scrollbar">
+                <tr>
+                    <th>ItemName</th>
+                    <th>Category</th>
+                    <th>AuthorName</th>
+                    <th>Quantity</th>
+                    <th>YearOfPublished</th>
+                    <th>Reserve</th>
+                </tr>
+                {% for item in Bookitem %}
+                <tr>
+                    <td>{{item.Name}}</td>
+                    <th>{{item.Category}}</th>
+                    <td>{{item.AuthorName}}</td>
+                    <td>{{item.Quantity}}</td>
+                    <td>{{item.YearOfPublished}}</td>
+                    <td><a href="{% url 'reserveItem' item.Id %}" class="btn btn-primary"><h6 class="white-text font-weight-bold wow fadeInLeft">Reserve</h6></a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+        <center><h3>No Book's available..</h3></center>
+        {% endif %}
+        </div>
+        <div class="column">
+            {% if CDitem %}
+            <table class="table table-hover table-wrapper-scroll-y my-custom-scrollbar">
+                <tr>
+                    <th>ItemName</th>
+                    <th>Category</th>
+                    <th>AuthorName</th>
+                    <th>Quantity</th>
+                    <th>YearOfPublished</th>
+                    <th>Reserve</th>
+                </tr>
+                <tbody>
+                    {% for item in CDitem %}
+                    <tr>
+                        <td>{{item.Name}}</td>
+                        <td>{{item.Category}}</td>
+                        <td>{{item.AuthorName}}</td>
+                        <td>{{item.Quantity}}</td>
+                        <td>{{item.YearOfPublished}}</td>
+                        <td><a href="{% url 'reserveItem' item.Id %}" class="btn btn-primary"><h6 class="white-text font-weight-bold wow fadeInLeft">Reserve</h6></a></td>
+                    </tr>
+                    {% endfor %}
+            {% else %}
+            <center><h3>No CD's available..</h3></center>
+                </tbody>
+             </table>
+            {% endif %}
+        </div>
+    </div> 
+</div>   
+    </header>
+    <script src="" async defer></script>
+    </body>
+</html>

@@ -1,0 +1,107 @@
+<!--    Modification Log
+    created on 23/07
+    created links for reserve/release Book/CD, ChangePassword, update profile
+    24/07 created logout option, MyProfile, 
+    30/07 used messages for user understanging. Modified the reserve/release to table button.
+    31/07 Worked on Front end.
+    17/08 worked on front end changes... in navbar
+-->
+
+
+<!DOCTYPE html>
+{% load static %}
+{% load crispy_forms_tags %}
+<html>
+<style>
+    .warning{
+        color:yellow;
+    }
+    .info{
+        color:blue;
+    }
+    .success{
+        color:green;
+    }
+    table{
+    border: 1px solid black;
+    }
+</style>
+    
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>UserHome</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'Css/bootstrap.min.css' %}">
+    </head>
+    <body>
+    <header>
+    <nav class="navbar navbar-light sticky-top bg-light justify-content-between">
+        <a class="navbar-brand"><h4 class="white-text font-weight-bold wow fadeInLeft">Library Management System</h4></a>
+        <div class="d-flex align-items-center">
+            <a class="nav-link text-dark" href="{% url 'index' %}"><h6 class="white-text font-weight-bold wow fadeInLeft">Home</h6></a>
+            <a class="btn btn-outline-danger mr-sm-2" href="{% url 'admLogin' %}"><h6 class="white-text font-weight-bold wow fadeInLeft">AdminLogin</h6></a>
+            <a class="btn btn-outline-danger my-2 my-sm-0" href="{% url 'userLogin' %}"><h6 class="white-text font-weight-bold wow fadeInLeft">UserLogin</h6></a>
+        </div>
+    </nav>
+    <!-- Mask & flexbox options-->
+            <div class="mask rgba-gradient align-items-center">
+              <!-- Content -->
+              <div class="container">
+                <!--Grid row-->
+                <div class="row mt-5">
+                  <!--Grid column-->
+                  <div class="col-md-6 mb-5 mt-md-0 mt-5 white-text text-center text-md-left">
+                    <h1 class="h1-responsive text-black font-weight-bold wow fadeInLeft" data-wow-delay="0.3s">If Not Registered, then Register First..</h1>
+                    <hr class="hr-light wow fadeInLeft" data-wow-delay="0.3s">
+                    <h6 class="mb-3 text-black wow fadeInLeft" data-wow-delay="0.3s">Library is the collection of different types of books.It provides Books for large number of readers.
+                    Thus we need software for managing the Library. Library Management System Software provides the systematic handling the records of books
+                    and readers.</h6>
+                  </div>
+    <!--User Registration Form -->
+                <div class="col-md-6 col-xl-5 mb-4">
+                    <!--Form-->
+                    <div class="card wow fadeInRight" data-wow-delay="0.3s">
+                        <div class="card-body" style="background-color:#ffffff;">
+                            <!--Header-->
+                            <div class="text-center">
+                                <h3 class="white-text font-weight-bold wow fadeInLeft">
+                                <i class="fas fa-user white-text"></i>User Register</h3>
+                                <hr class="hr-light">
+                            </div>
+                            {% if messages %}
+                            {% for msg in messages %}
+                            <h6 class="mt-2 white-text font-weight-bold wow fadeInLeft"><span class={{msg.tags}}>{{msg}}</span></h6>
+                            <hr class="mt-0 mb-4">
+                            {% endfor %}   
+                            {% endif %}
+                            <!--Body-->
+                            <div class="md-form">
+                                <i class="fas fa-user prefix white-text active"></i>
+                                <form method='POST' novalidate>
+                                {% csrf_token %}
+                                {{form|crispy}}
+                                <div class="text-center mt-4">
+                                <button class="btn btn-outline-success my-2 my-sm-0"><h6 class="white-text font-weight-bold wow fadeInLeft">Sign up</h6></button>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/.Form-->
+                </div>
+                  <!--Grid column-->
+              </div>
+                <!--Grid row-->
+            </div>
+              <!-- Content -->
+          </div>
+            <!-- Mask & flexbox options-->
+        </div>
+    
+    </header>  
+        <script src="" async defer></script>
+    </body>
+</html>
+

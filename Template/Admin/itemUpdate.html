@@ -1,0 +1,76 @@
+<!--    Modification Log
+    created on 24/08
+    25/08 used normal form tags.
+    25/08 applied bootstrap.
+    26/08 worked on Front End changed to crispy forms.
+    30/08 all fields are changed to readonly except the Quantity.
+    17/08 worked on front end changes... in navbar
+-->
+
+<!DOCTYPE html>
+{% load static %}
+{% load crispy_forms_tags %}
+<html>
+    <head>
+    <style>
+    .success{
+        color:green;
+    }
+    </style>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>ItemUpdate</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'Css/bootstrap.min.css' %}">
+    </head>
+    <body> 
+    <header>
+    <!--Navbar-->
+    <nav class="navbar navbar-light bg-light sticky-top justify-content-between">
+        <a class="navbar-brand"><h4 class="text-white font-weight-bold wow fadeInLeft">Library Management System</h4></a>
+        <div class="d-flex align-items-center">
+            {% if user.is_authenticated %}
+            <h6 class="white-text font-weight-bold wow fadeInLeft">Welcome {{user.username}}</h6>
+            {% endif %}
+            <a class="nav-link text-dark" href="{% url 'adminIndex' %}"><h6 class="white-text font-weight-bold wow fadeInLeft">Home</h6></a>
+            <a class="nav-link text-dark" href="{% url 'regItem' %}"><h6 class="white-text font-weight-bold wow fadeInLeft">ItemRegistration</h6></a>
+            <a class="btn btn-outline-danger my-2 my-sm-0" href="{% url 'admLogout' %}"><h6 class="white-text font-weight-bold wow fadeInLeft">Logout</h6></a>
+        </div>
+    </nav>
+</div>
+<section>
+  <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+    <div class="container h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+          <div class="card" style="border-radius: 15px;">
+            <div class="card-body p-5">
+              <h2 class="text-uppercase text-center mb-5">Update Item</h2>
+              {% if messages %}
+              {% for msg in messages %}
+                <h5 class="mt-2 white-text font-weight-bold wow fadeInLeft"><span class={{msg.tags}}>{{msg}}</span></h5>
+                <hr class="mt-0 mb-4">
+              {% endfor %}   
+              {% endif %}
+              <form method="POST" novalidate>
+                {% csrf_token %}
+                {{ form|crispy}}
+                <br>
+                <div class="text-center mt-4">
+                  <a href="{% url 'adminIndex' %}" class="btn btn-outline-danger btn-lg">Cancel</a>
+                  <button class="btn btn-outline-success btn-lg">Update</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</header>
+        
+        <script src="" async defer></script>
+    </body>
+</html>
